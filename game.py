@@ -1,4 +1,4 @@
-
+import card
 class Game:
     board_area = [0,1,2]
     player_orientation = [1,-1]
@@ -6,7 +6,7 @@ class Game:
     turn = 0
     def __init__(self, hand_dict, region = ['Air','Land','Sea']):
         self.hand_dict = hand_dict
-        self.region_dict = {i:region for i,region in zip(board_area,region)}
+        self.region_dict = {i:region for i,region in zip(self.board_area,region)}
 
     def init_board(self):
         self.board = dict()
@@ -24,3 +24,8 @@ class Game:
         card_list.append(played_card)
         # activate card ability
         card.ability(self,input)
+
+
+
+hand = {1:[card.Cd_A1()],-1:[card.Cd_A1()]}
+a = Game(hand)
