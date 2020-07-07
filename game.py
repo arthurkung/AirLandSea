@@ -1,7 +1,7 @@
 import card
 class Game:
     board_area = [0,1,2]
-    player_orientation = [1,-1]
+    player = [1,-1]
 
     turn = 0
     def __init__(self, hand_dict, region = ['Air','Land','Sea']):
@@ -10,7 +10,7 @@ class Game:
 
     def init_board(self):
         self.board = dict()
-        for area, player in zip(self.board_area,self.player_orientation):
+        for area, player in zip(self.board_area,self.player):
             self.board[(area,player)] = []
 
 
@@ -25,7 +25,11 @@ class Game:
         # activate card ability
         card.ability(self,input)
 
-
+    def get_turn_player(self):
+        if turn%2 == 0:
+            return 1
+        else:
+            return -1
 
 hand = {1:[card.Cd_A1()],-1:[card.Cd_A1()]}
 a = Game(hand)
