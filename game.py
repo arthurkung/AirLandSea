@@ -7,11 +7,13 @@ class Game:
     def __init__(self, hand_dict, region = ['Air','Land','Sea']):
         self.hand_dict = hand_dict
         self.region_dict = {i:region for i,region in zip(self.board_area,region)}
+        self.init_board()
 
     def init_board(self):
         self.board = dict()
-        for area, player in zip(self.board_area,self.player):
-            self.board[(area,player)] = []
+        for area in self.board_area:
+            for player in self.player:
+                self.board[(area,player)] = []
 
 
     def play_move(self, card_name, orientation, loc, input):
@@ -31,5 +33,24 @@ class Game:
         else:
             return -1
 
+    def display_hand(self):
+        for player, hand_list in self.hand_dict.items():
+            s = 'player'+str(player)+': '
+            s = s + hand_list.__repr__()
+            print(s)
+
+
+    def display_board(self):
+        for area, player in self.board.keys():
+            s = self.region_dict[area] + ' p' +str(player)+': '
+            card_list = self.board[(area,player)]
+            s = s+card_list.__repr__()
+            print(s)
+
+
 hand = {1:[card.Cd_A1()],-1:[card.Cd_A1()]}
 a = Game(hand)
+a.board[(0,1)] = [card.Cd_A1(),card.Cd_A6()]
+a.display_hand()
+b = [card.Cd_A1(),card.Cd_A6()]
+print(b)

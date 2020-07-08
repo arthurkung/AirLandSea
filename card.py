@@ -1,5 +1,10 @@
 class Cd:
-    pass
+    def display(self):
+        return self.region[0] + str(self.strength)
+    def __str__(self):
+        return self.display()
+    def __repr__(self):
+        return self.display()
 
 class Cd_A1(Cd):
     region = 'Air'
@@ -12,3 +17,7 @@ class Cd_A6(Cd):
     strength = 6
     def ability(self,game,input):
         pass
+
+a=Cd_A6()
+print(a.__str__())
+
