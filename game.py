@@ -36,7 +36,7 @@ class Game:
     def display_hand(self):
         for player, hand_list in self.hand_dict.items():
             s = 'player'+str(player)+': '
-            s = s + hand_list.__repr__()
+            s = s + hand_list.__str__()
             print(s)
 
 
@@ -44,7 +44,7 @@ class Game:
         for area, player in self.board.keys():
             s = self.region_dict[area] + ' p' +str(player)+': '
             card_list = self.board[(area,player)]
-            s = s+card_list.__repr__()
+            s = s+card_list.__str__()
             print(s)
 
 
@@ -52,5 +52,4 @@ hand = {1:[card.Cd_A1()],-1:[card.Cd_A1()]}
 a = Game(hand)
 a.board[(0,1)] = [card.Cd_A1(),card.Cd_A6()]
 a.display_hand()
-b = [card.Cd_A1(),card.Cd_A6()]
-print(b)
+a.display_board()
