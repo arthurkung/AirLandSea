@@ -20,9 +20,13 @@ class Game:
         # remove card from hand
         card = card_name
         self.hand_dict.remove(card)
+        # check any restricting abilities
+        if self.check_active_abilities() == True:
+            return 0
+
         # insert hand to board
         card_list = self.board[loc]
-        played_card = [card,orientation]
+        played_card = (card,orientation)
         card_list.append(played_card)
         # activate card ability
         card.ability(self,input)
@@ -47,9 +51,31 @@ class Game:
             s = s+card_list.__str__()
             print(s)
 
+    def flip_card(self, area, player):
+        card_list = self.board[(area,player)]
+        card_to_flip  = card_list[-1]
+        cd, orig_side = card_to_flip
+        new_side = orig_side * -1
+        flipped_card = (cd,new_side)
+        card_list.pop() # remove card to be flipped
+        card_list.append(flipped_card) # add flipped card
+        if new_side == 1:
+            cd.ability(self)
+        return 1
+
+    def get_card(self,name):
+        for loc,card_list in self.board.items():
+            for play_card in card_list:
+                cd, orientation = play_card
+                if cd.display() == name:
+                    # area,player = loc
+                    return cd
+        return None
 
 hand = {1:[card.Cd_A1()],-1:[card.Cd_A1()]}
 a = Game(hand)
-a.board[(0,1)] = [card.Cd_A1(),card.Cd_A6()]
-a.display_hand()
-a.display_board()
+a.board[(0,1)] = [(card.Cd_A1(),1),(card.Cd_A6(),-1)]
+# a.display_hand()
+# a.display_board()
+c = a.get_card('A1')
+c.ability(a)
