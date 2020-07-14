@@ -15,11 +15,23 @@ class Game:
             for player in self.player:
                 self.board[(area,player)] = []
 
+    def get_card_from_list(self,card_name,list):
+        for card in list:
+            if card.display()==card_name:
+                return card
+        return None
 
     def play_move(self, card_name, orientation, loc, input):
+        # get player
+        player = self.get_turn_player()
+        # get hand list
+        hand_list = self.hand_dict[player]
+        # card to play
+        card = self.get_card_from_list(card_name, hand_list)
+        if card is None:
+            print("card is not found from hand")
         # remove card from hand
-        card = card_name
-        self.hand_dict.remove(card)
+        hand_list.remove(card)
         # check any restricting abilities
         if self.check_active_abilities() == True:
             return 0
