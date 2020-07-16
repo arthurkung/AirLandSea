@@ -27,11 +27,11 @@ class Game:
         # get hand list
         hand_list = self.hand_dict[player]
         # card to play
-        card = self.get_card_from_list(card_name, hand_list)
-        if card is None:
+        cd = self.get_card_from_list(card_name, hand_list)
+        if cd is None:
             print("card is not found from hand")
         # remove card from hand
-        hand_list.remove(card)
+        hand_list.remove(cd)
         # check any restricting abilities
         if self.check_active_abilities(card_name, orientation, loc) == True:
             return 0
@@ -41,7 +41,8 @@ class Game:
         played_card = (card,orientation)
         card_list.append(played_card)
         # activate card ability
-        card.ability(self,input)
+        if orientation == 1 and cd.ability_type='one-off':
+            card.ability(self,input)
 
     def check_active_abilities(card_name, orientation, loc):
         result = ''
