@@ -9,6 +9,7 @@ class Cd:
 class Cd_A1(Cd):
     region = 'Air'
     strength = 1
+    ability_type = 'one-off'
     def ability(self,game):
         card_name = ''
         cd = None
@@ -23,10 +24,17 @@ class Cd_A1(Cd):
         print("We are going to move card: {}".format(card_name))
         region_name = input("Which Region to move to: ")
 
+class Cd_A5(Cd):
+    region = 'Air'
+    strength = 5
+    ability_type = 'Continuous'
+    def ability(self,game):
+        pass
 
 class Cd_A6(Cd):
     region = 'Air'
     strength = 6
+    ability_type = 'None'
     def ability(self,game):
         pass
 

@@ -21,7 +21,7 @@ class Game:
                 return card
         return None
 
-    def play_move(self, card_name, orientation, loc, input):
+    def play_move(self, card_name, orientation, loc):
         # get player
         player = self.get_turn_player()
         # get hand list
@@ -33,7 +33,7 @@ class Game:
         # remove card from hand
         hand_list.remove(card)
         # check any restricting abilities
-        if self.check_active_abilities() == True:
+        if self.check_active_abilities(card_name, orientation, loc) == True:
             return 0
 
         # insert hand to board
@@ -42,6 +42,14 @@ class Game:
         card_list.append(played_card)
         # activate card ability
         card.ability(self,input)
+
+    def check_active_abilities(card_name, orientation, loc):
+        result = ''
+        for loc,played_card in self.board.items():
+            cd, side = played_card
+            if side == 1 and cd.ability_type == 'Continuous':
+                result = cd.ability(card_name, orientation, loc)
+        return result
 
     def get_turn_player(self):
         if turn%2 == 0:
