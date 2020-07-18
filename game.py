@@ -30,6 +30,10 @@ class Game:
         cd = self.get_card_from_list(card_name, hand_list)
         if cd is None:
             print("card is not found from hand")
+
+        if not self.play_card_is_valid(cd,orientation,loc,player):
+            return 0
+
         # remove card from hand
         hand_list.remove(cd)
         # check any restricting abilities
@@ -43,6 +47,15 @@ class Game:
         # activate card ability
         if orientation == 1 and cd.ability_type='one-off':
             card.ability(self,input)
+
+    def play_card_is_valid(self,cd,orientation,loc,player):
+        area,loc_player = loc
+        if loc_player != player:
+            return False
+        if orientation == -1:
+            return True
+        if cd.region == self.region_dict[area]:
+            return True
 
     def check_active_abilities(card_name, orientation, loc):
         result = ''
