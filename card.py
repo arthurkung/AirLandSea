@@ -38,6 +38,17 @@ class Cd_A6(Cd):
     def ability(self,game):
         pass
 
+class Cd_A2(Cd):
+    region = 'Air'
+    strength = 2
+    ability_type = 'one-off'
+    ability_is_alive = None
+    def ability(self,game):
+        if self.ability_is_alive is None:
+            self.ability_is_alive = True
+        elif self.ability_is_alive == True:
+            self.ability_is_alive = False
+
 a=Cd_A6()
 print(a.__str__())
 

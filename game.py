@@ -56,6 +56,39 @@ class Game:
             return True
         if cd.region == self.region_dict[area]:
             return True
+        if self.is_A4_active(player) == True and cd.strength <=3:
+            return True
+        if self.is_A2_active(player) == True:
+            return True
+        return False
+
+    def is_A4_active(self, player):
+        for area in self.board_area:
+            played_card_list = self.board[(area,player)]
+            if self.get_active_card_from_played_card(played_card_list,'A4') is not None:
+                return True
+        return False
+    def is_A2_active(self, player):
+        for area in self.board_area:
+            played_card_list = self.board[(area,player)]
+            cd = self.get_active_card_from_played_card(played_card_list,'A2')
+            if cd is not None and cd.ability_is_alive == True:
+                return True
+            else:
+                return False
+        return False
+
+
+    def get_active_card_from_played_card(self, played_card_list, card_name):
+        for played_card in played_card_list:
+            card,orientation = played_card
+            if card.display() == card_name:
+                if orientation == 1:
+                    return card
+                else:
+                    return None
+        return None
+
 
     def check_active_abilities(card_name, orientation, loc):
         result = ''
