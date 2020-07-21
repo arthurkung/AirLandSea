@@ -21,9 +21,10 @@ class Game:
                 return card
         return None
 
-    def play_move(self, card_name, orientation, loc):
+    def play_move(self, card_name, orientation, area):
         # get player
         player = self.get_turn_player()
+        loc = (area, player)
         # get hand list
         hand_list = self.hand_dict[player]
         # card to play
@@ -36,17 +37,19 @@ class Game:
 
         # remove card from hand
         hand_list.remove(cd)
+
+        self.turn = self.turn + 1
         # check any restricting abilities
         if self.check_active_abilities(card_name, orientation, loc) == True:
             return 0
 
         # insert hand to board
         card_list = self.board[loc]
-        played_card = (card,orientation)
+        played_card = (cd,orientation)
         card_list.append(played_card)
         # activate card ability
         if orientation == 1 and cd.ability_type=='one-off':
-            card.ability(self,input)
+            cd.ability(self)
 
     def play_card_is_valid(self,cd,orientation,loc,player):
         area,loc_player = loc
@@ -68,6 +71,7 @@ class Game:
             if self.get_active_card_from_played_card(played_card_list,'A4') is not None:
                 return True
         return False
+
     def is_A2_active(self, player):
         for area in self.board_area:
             played_card_list = self.board[(area,player)]
@@ -90,16 +94,17 @@ class Game:
         return None
 
 
-    def check_active_abilities(card_name, orientation, loc):
+    def check_active_abilities(self,card_name, orientation, loc):
         result = ''
-        for loc,played_card in self.board.items():
-            cd, side = played_card
-            if side == 1 and cd.ability_type == 'Continuous':
-                result = cd.ability(card_name, orientation, loc)
+        for played_loc,played_card_list in self.board.items():
+            for played_card in played_card_list:
+                cd, side = played_card
+                if side == 1 and cd.ability_type == 'Continuous':
+                    result = cd.ability(card_name, orientation, loc)
         return result
 
     def get_turn_player(self):
-        if turn%2 == 0:
+        if self.turn%2 == 0:
             return 1
         else:
             return -1
@@ -130,7 +135,7 @@ class Game:
             cd.ability(self)
         return 1
 
-    def get_card(self,name):
+    def get_card_from_board(self,name):
         for loc,card_list in self.board.items():
             for play_card in card_list:
                 cd, orientation = play_card
@@ -139,10 +144,14 @@ class Game:
                     return cd
         return None
 
-hand = {1:[card.Cd_A1()],-1:[card.Cd_A1()]}
+hand = {1:[card.Cd_A6()],-1:[card.Cd_A1()]}
 a = Game(hand)
-a.board[(0,1)] = [(card.Cd_A1(),1),(card.Cd_A6(),-1)]
-# a.display_hand()
-# a.display_board()
-c = a.get_card('A1')
-c.ability(a)
+# a.board[(0,1)] = [(card.Cd_A1(),1),(card.Cd_A6(),-1)]
+a.play_move( 'A6', 1, 0)
+
+a.display_hand()
+a.display_board()
+
+
+# c = a.get_card_from_board('A1')
+# c.ability(a)
