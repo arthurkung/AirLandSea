@@ -39,8 +39,8 @@ class Game:
         hand_list.remove(cd)
 
         self.turn = self.turn + 1
-        # check any restricting abilities
-        if self.check_active_abilities(card_name, orientation, loc) == True:
+        # check if it is discarded by active abilities
+        if self.discard_by_active_abilities(card_name, orientation, loc) == True:
             return 0
 
         # insert hand to board
@@ -72,6 +72,14 @@ class Game:
                 return True
         return False
 
+    def is_A5_active(self):
+        for area in self.board_area:
+            for player in self.player:
+                played_card_list = self.board[(area,player)]
+                if self.get_active_card_from_played_card(played_card_list,'A5') is not None:
+                    return True
+        return False
+
     def is_A2_active(self, player):
         for area in self.board_area:
             played_card_list = self.board[(area,player)]
@@ -83,6 +91,14 @@ class Game:
         return False
 
 
+    def get_S5_loc(self):
+        for area in self.board_area:
+            for player in self.player:
+                played_card_list = self.board[(area,player)]
+                if self.get_active_card_from_played_card(played_card_list,'S5') is not None:
+                    return area
+        return None
+
     def get_active_card_from_played_card(self, played_card_list, card_name):
         for played_card in played_card_list:
             card,orientation = played_card
@@ -93,15 +109,31 @@ class Game:
                     return None
         return None
 
+    def get_neighbour_area(self,area):
+        neighbour = [x for x in self.board_area if abs(x-area)==1]
+        return neighbour
 
-    def check_active_abilities(self,card_name, orientation, loc):
-        result = ''
-        for played_loc,played_card_list in self.board.items():
-            for played_card in played_card_list:
-                cd, side = played_card
-                if side == 1 and cd.ability_type == 'Continuous':
-                    result = cd.ability(card_name, orientation, loc)
-        return result
+    def count_cards_in_board_area(self, area):
+        count = 0
+        for player in self.player:
+            count = count + len(self.board[(area,player)])
+        return count
+
+    def discard_by_active_abilities(self,card_name, orientation, loc):
+        # is discarded by A5
+        if orientation == -1 and self.is_A5_active() == True:
+            return True
+
+        # is discarded by S5
+        S5_area = self.get_S5_loc()
+        if S5_area is not None:
+            played_area = loc[0]
+            S5_neighbour = self.get_neighbour_area(S5_area)
+            if played_area in S5_neighbour:
+                if count_cards_in_board_area(played_area)>=3:
+                    return True
+
+        return False
 
     def get_turn_player(self):
         if self.turn%2 == 0:
@@ -144,11 +176,12 @@ class Game:
                     return cd
         return None
 
-hand = {1:[card.Cd_A6()],-1:[card.Cd_A1()]}
+hand = {1:[card.Cd_A6(),card.Cd_A4(),card.Cd_A2()],-1:[card.Cd_A5(),card.Cd_A1()]}
 a = Game(hand)
 # a.board[(0,1)] = [(card.Cd_A1(),1),(card.Cd_A6(),-1)]
 a.play_move( 'A6', 1, 0)
-
+a.play_move( 'A5', 1, 0)
+a.play_move( 'A4', -1, 0)
 a.display_hand()
 a.display_board()
 

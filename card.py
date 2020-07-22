@@ -31,6 +31,14 @@ class Cd_A5(Cd):
     def ability(self,game):
         pass
 
+class Cd_A4(Cd):
+    region = 'Air'
+    strength = 4
+    ability_type = 'Continuous'
+    def ability(self,game):
+        pass
+
+
 class Cd_A6(Cd):
     region = 'Air'
     strength = 6
