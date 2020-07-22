@@ -48,7 +48,7 @@ class Game:
         played_card = (cd,orientation)
         card_list.append(played_card)
         # activate card ability
-        if orientation == 1 and cd.ability_type=='one-off':
+        if orientation == 1:
             cd.ability(self)
 
     def play_card_is_valid(self,cd,orientation,loc,player):

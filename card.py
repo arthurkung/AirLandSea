@@ -5,11 +5,14 @@ class Cd:
         return self.display()
     def __repr__(self):
         return self.display()
+    def ability(self,game):
+        pass
+
 
 class Cd_A1(Cd):
     region = 'Air'
     strength = 1
-    ability_type = 'one-off'
+
     def ability(self,game):
         card_name = ''
         cd = None
@@ -27,29 +30,21 @@ class Cd_A1(Cd):
 class Cd_A5(Cd):
     region = 'Air'
     strength = 5
-    ability_type = 'Continuous'
-    def ability(self,game):
-        pass
+
 
 class Cd_A4(Cd):
     region = 'Air'
     strength = 4
-    ability_type = 'Continuous'
-    def ability(self,game):
-        pass
 
 
 class Cd_A6(Cd):
     region = 'Air'
     strength = 6
-    ability_type = 'None'
-    def ability(self,game):
-        pass
+
 
 class Cd_A2(Cd):
     region = 'Air'
     strength = 2
-    ability_type = 'one-off'
     ability_is_alive = None
     def ability(self,game):
         if self.ability_is_alive is None:
