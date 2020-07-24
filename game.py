@@ -33,7 +33,7 @@ class Game:
             print("card is not found from hand")
 
         if not self.play_card_is_valid(cd,orientation,loc,player):
-            return 0
+            return 'Move is invalid'
 
         # remove card from hand
         hand_list.remove(cd)
@@ -41,7 +41,7 @@ class Game:
         self.turn = self.turn + 1
         # check if it is discarded by active abilities
         if self.discard_by_active_abilities(card_name, orientation, loc) == True:
-            return 0
+            return 'Card is discarded'
 
         # insert hand to board
         card_list = self.board[loc]
@@ -177,13 +177,12 @@ class Game:
         return None
 
 hand = {1:[card.Cd_A6(),card.Cd_A4(),card.Cd_A2()],-1:[card.Cd_A5(),card.Cd_A1()]}
-a = Game(hand)
-# a.board[(0,1)] = [(card.Cd_A1(),1),(card.Cd_A6(),-1)]
-a.play_move( 'A6', 1, 0)
-a.play_move( 'A5', 1, 0)
-a.play_move( 'A4', -1, 0)
-a.display_hand()
-a.display_board()
+# a = Game(hand)
+# a.play_move( 'A6', 1, 0)
+# a.play_move( 'A5', 1, 0)
+# a.play_move( 'A4', -1, 0)
+# a.display_hand()
+# a.display_board()
 
 
 # c = a.get_card_from_board('A1')
