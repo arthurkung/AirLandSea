@@ -9,6 +9,12 @@ class Game:
         self.region_dict = {i:region for i,region in zip(self.board_area,region)}
         self.init_board()
 
+    def convert_region_to_area(self, region_name):
+        for area, region in self.region_dict.items():
+            if region == region_name:
+                return area
+        return None
+
     def init_board(self):
         self.board = dict()
         for area in self.board_area:
@@ -16,13 +22,18 @@ class Game:
                 self.board[(area,player)] = []
 
     def get_card_from_list(self,card_name,list):
-        for card in list:
-            if card.display()==card_name:
-                return card
+        for cd in list:
+            if cd.display()==card_name:
+                return cd
         return None
 
     def play_move(self, card_name, orientation, area):
-        # get player
+
+        if area not in self.board_area:
+            area = self.convert_region_to_area(area)
+        if area not in self.board_area:
+            return 'Area is invalid'
+
         player = self.get_turn_player()
         loc = (area, player)
         # get hand list
@@ -101,10 +112,10 @@ class Game:
 
     def get_active_card_from_played_card(self, played_card_list, card_name):
         for played_card in played_card_list:
-            card,orientation = played_card
-            if card.display() == card_name:
+            cd,orientation = played_card
+            if cd.display() == card_name:
                 if orientation == 1:
-                    return card
+                    return cd
                 else:
                     return None
         return None
@@ -157,6 +168,8 @@ class Game:
 
     def flip_card(self, area, player):
         card_list = self.board[(area,player)]
+        if len(card_list) == 0:
+            return 'there is no card there'
         card_to_flip  = card_list[-1]
         cd, orig_side = card_to_flip
         new_side = orig_side * -1
