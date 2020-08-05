@@ -102,14 +102,6 @@ class Game:
         return False
 
 
-    def get_S5_loc(self):
-        for area in self.board_area:
-            for player in self.player:
-                played_card_list = self.board[(area,player)]
-                if self.get_active_card_from_played_card(played_card_list,'S5') is not None:
-                    return area
-        return None
-
     def get_card_from_played_card(self, played_card_list, card_name):
         for played_card in played_card_list:
             cd,orientation = played_card
@@ -143,8 +135,10 @@ class Game:
             return True
 
         # is discarded by S5
-        S5_area = self.get_S5_loc()
-        if S5_area is not None:
+        S5_card = self.get_card_from_board('S5')
+
+        if S5_card is not None:
+            S5_area = S5_card.find_self_area(self)
             played_area = loc[0]
             S5_neighbour = self.get_neighbour_area(S5_area)
             if played_area in S5_neighbour:
