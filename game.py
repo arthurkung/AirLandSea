@@ -110,15 +110,22 @@ class Game:
                     return area
         return None
 
-    def get_active_card_from_played_card(self, played_card_list, card_name):
+    def get_card_from_played_card(self, played_card_list, card_name):
         for played_card in played_card_list:
             cd,orientation = played_card
             if cd.display() == card_name:
-                if orientation == 1:
-                    return cd
-                else:
-                    return None
+                return played_card
         return None
+
+    def get_active_card_from_played_card(self, played_card_list, card_name):
+        played_card = self.get_card_from_played_card(played_card_list, card_name)
+        if played_card is None:
+            return None
+        cd,orientation = played_card
+        if orientation == 1:
+            return cd
+        else:
+            return None
 
     def get_neighbour_area(self,area):
         neighbour = [x for x in self.board_area if abs(x-area)==1]
@@ -190,13 +197,14 @@ class Game:
         return None
 
 hand = {1:[card.Cd_A6(),card.Cd_A4(),card.Cd_A2()],-1:[card.Cd_A5(),card.Cd_A1()]}
-# a = Game(hand)
-# a.play_move( 'A6', 1, 0)
+a = Game(hand)
+a.play_move( 'A6', 1, 0)
 # a.play_move( 'A5', 1, 0)
 # a.play_move( 'A4', -1, 0)
 # a.display_hand()
 # a.display_board()
 
-
-# c = a.get_card_from_board('A1')
+c = a.get_card_from_board('A6')
+d = c.find_self_area(a)
+print(d)
 # c.ability(a)

@@ -8,6 +8,18 @@ class Cd:
     def ability(self,game):
         pass
 
+    def find_self_area(self,game):
+        self_name = self.display()
+        for area in game.board_area:
+            for player in game.player:
+                played_card_list = game.board[(area,player)]
+                if game.get_card_from_played_card(played_card_list,self_name) is not None:
+                    return area
+
+
+    def flip_neighbour(self,game):
+        self_area=self.find_self_area(game)
+
 
 class Cd_A1(Cd):
     region = 'Air'
@@ -36,6 +48,8 @@ class Cd_A2(Cd):
             self.ability_is_alive = True
         elif self.ability_is_alive == True:
             self.ability_is_alive = False
+
+
 class Cd_A3(Cd):
     region = 'Air'
     strength = 3
