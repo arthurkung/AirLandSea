@@ -32,6 +32,7 @@ class Game:
         if area not in self.board_area:
             area = self.convert_region_to_area(area)
         if area not in self.board_area:
+            print('Area is invalid')
             return 'Area is invalid'
 
         player = self.get_turn_player()
@@ -44,6 +45,7 @@ class Game:
             print("card is not found from hand")
 
         if not self.play_card_is_valid(cd,orientation,loc,player):
+            print("Move is invalid")
             return 'Move is invalid'
 
         # remove card from hand
@@ -192,14 +194,14 @@ class Game:
 
 hand = {1:[card.Cd_A6(),card.Cd_A4(),card.Cd_A2()],-1:[card.Cd_A5(),card.Cd_A1(),card.Cd_A3()]}
 a = Game(hand)
-a.play_move( 'A6', 1, 0)
+a.play_move( 'A6', -1, 1)
 a.play_move( 'A3', 1, 0)
 # a.play_move( 'A5', 1, 0)
 # a.play_move( 'A4', -1, 0)
 # a.display_hand()
 # a.display_board()
 
-c = a.get_card_from_board('A6')
-d = c.find_self_area(a)
-print(d)
+# c = a.get_card_from_board('A6')
+# d = c.find_self_area(a)
+# print(d)
 # c.ability(a)

@@ -29,9 +29,12 @@ class Cd:
 
     def flip_neighbour(self,game):
         self_area=self.find_self_area(game)
-        neighbour_area = self.get_neighbour_area(S5_area)
-        neighbour_region = [game.region_dict[area] for area in neighbour_area]
-        region_input = self.get_region_input(neighbour_region)
+        neighbour_areas = game.get_neighbour_area(self_area)
+        neighbour_areas_with_cards = [area for area in neighbour_areas if game.count_cards_in_board_area(area)>0]
+        if len(neighbour_areas_with_cards) == 0:
+            return 'No neighbour area with cards to flip'
+        available_regions = [game.region_dict[area] for area in neighbour_areas_with_cards]
+        region_input = self.get_region_input(available_regions)
         area_to_flip = game.convert_region_to_area(region_input)
         player = input("Please give player of flip: ")
         game.flip_card(area, player)
