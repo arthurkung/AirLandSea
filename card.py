@@ -17,8 +17,24 @@ class Cd:
                     return area
 
 
+    def get_region_input(self,region_option):
+        region_input = None
+        while region_input is None and region_input != 'stop':
+            region_input = input("Please give region of flip: ")
+            if region_input in region_option:
+                return region_input
+            else:
+                print('region not valid')
+        return None
+
     def flip_neighbour(self,game):
         self_area=self.find_self_area(game)
+        neighbour_area = self.get_neighbour_area(S5_area)
+        neighbour_region = [game.region_dict[area] for area in neighbour_area]
+        region_input = self.get_region_input(neighbour_region)
+        area_to_flip = game.convert_region_to_area(region_input)
+        player = input("Please give player of flip: ")
+        game.flip_card(area, player)
 
 
 class Cd_A1(Cd):
@@ -54,9 +70,8 @@ class Cd_A3(Cd):
     region = 'Air'
     strength = 3
     def ability(self,game):
-        area = input("Please give area of flip: ")
-        player = input("Please give player of flip: ")
-        game.flip_card(area, player)
+        self.flip_neighbour(game)
+
 
 class Cd_A4(Cd):
     region = 'Air'

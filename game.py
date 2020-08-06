@@ -190,9 +190,10 @@ class Game:
                     return cd
         return None
 
-hand = {1:[card.Cd_A6(),card.Cd_A4(),card.Cd_A2()],-1:[card.Cd_A5(),card.Cd_A1()]}
+hand = {1:[card.Cd_A6(),card.Cd_A4(),card.Cd_A2()],-1:[card.Cd_A5(),card.Cd_A1(),card.Cd_A3()]}
 a = Game(hand)
 a.play_move( 'A6', 1, 0)
+a.play_move( 'A3', 1, 0)
 # a.play_move( 'A5', 1, 0)
 # a.play_move( 'A4', -1, 0)
 # a.display_hand()
