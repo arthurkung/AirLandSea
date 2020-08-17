@@ -37,8 +37,17 @@ class Cd:
         region_input = self.get_region_input(available_regions)
         area_to_flip = game.convert_region_to_area(region_input)
         player = input("Please give player of flip: ")
-        game.flip_card(area, player)
+        player = int(player)
+        game.flip_card(area_to_flip, player)
 
+    def flip_any_region(self,game):
+        all_regions = game.region_dict.values()
+        region_input = self.get_region_input(all_regions)
+        area_to_flip = game.convert_region_to_area(region_input)
+        print(area_to_flip)
+        player = input("Please give player of flip: ")
+        player = int(player)
+        game.flip_card(area_to_flip, player)
 
 class Cd_A1(Cd):
     region = 'Air'
@@ -92,6 +101,19 @@ class Cd_A6(Cd):
 class Cd_S6(Cd):
     region = 'Sea'
     strength = 6
+
+
+class Cd_L2(Cd):
+    region = 'Land'
+    strength = 2
+    def ability(self,game):
+        self.flip_any_region(game)
+
+class Cd_L3(Cd):
+    region = 'Land'
+    strength = 3
+    def ability(self,game):
+        self.flip_neighbour(game)
 
 class Cd_L6(Cd):
     region = 'Land'
